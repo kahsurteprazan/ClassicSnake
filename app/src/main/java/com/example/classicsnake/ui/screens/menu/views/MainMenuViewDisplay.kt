@@ -17,8 +17,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.classicsnake.R
-import com.example.classicsnake.ui.components.JetTextButton
 import com.example.classicsnake.ui.theme.ClassicSnakeTheme
+import com.example.classicsnake.ui.theme.components.JetTextButton
 
 @Composable
 fun MainMenuScreenViewDisplay() {
