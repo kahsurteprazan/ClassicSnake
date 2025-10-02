@@ -1,4 +1,4 @@
-package com.example.classicsnake.ui.components
+package com.example.classicsnake.ui.theme.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
