@@ -60,6 +60,7 @@ dependencies {
 
     implementation("androidx.navigation:navigation-compose:2.8.9")
     implementation("androidx.navigation:navigation-runtime-ktx:2.8.9")
+    implementation("androidx.navigation:navigation-common:2.8.9")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
 
