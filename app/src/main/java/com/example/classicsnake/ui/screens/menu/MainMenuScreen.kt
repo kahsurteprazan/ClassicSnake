@@ -1,9 +1,11 @@
 package com.example.classicsnake.ui.screens.menu
 
 import androidx.compose.runtime.Composable
-import com.example.classicsnake.ui.screens.table.views.RatingTableViewDisplay
+import androidx.navigation.NavController
+import com.example.classicsnake.ui.screens.menu.views.MainMenuViewDisplay
+
 
 @Composable
-fun MainMenuScreen() {
-    RatingTableViewDisplay()
+fun MainMenuScreen(navController: NavController) {
+    MainMenuViewDisplay{navController.navigate(it)}
 }

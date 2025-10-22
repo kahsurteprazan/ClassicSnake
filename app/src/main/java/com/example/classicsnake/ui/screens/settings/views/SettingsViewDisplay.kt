@@ -14,8 +14,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.classicsnake.ui.screens.settings.models.GameRuleEvent
+import com.example.classicsnake.ui.screens.settings.models.SettingsEvent
+import com.example.classicsnake.ui.screens.settings.models.SettingsViewState
 import com.example.classicsnake.ui.theme.components.JetCheckBox
 import com.example.classicsnake.ui.theme.components.JetSection
 import com.example.classicsnake.ui.theme.components.JetSwitch
@@ -23,7 +25,8 @@ import com.example.classicsnake.ui.theme.components.JetTextButton
 
 @Composable
 fun SettingsViewDisplay(
-    /* ... */
+    state: SettingsViewState.Display,
+    dispatcher: (SettingsEvent) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -42,9 +45,9 @@ fun SettingsViewDisplay(
             JetSwitch(
                 modifier = Modifier.fillMaxWidth(),
                 items = listOf("Легко", "Нормально", "Сложно"),
-                selectedItemId = 0
+                selectedItemId = state.gameLevel.ordinal
             ) {
-
+                dispatcher.invoke(SettingsEvent.ChangeDifficultyLevel(it))
             }
         }
 
@@ -52,9 +55,9 @@ fun SettingsViewDisplay(
             JetSwitch(
                 modifier = Modifier.fillMaxWidth(),
                 items = listOf("Редко", "Нормально", "Сложно"),
-                selectedItemId = 0
+                selectedItemId = state.spawnChanceOfBonusItems.ordinal
             ) {
-
+                dispatcher.invoke(SettingsEvent.ChangeChance(it))
             }
         }
 
@@ -62,9 +65,9 @@ fun SettingsViewDisplay(
             JetSwitch(
                 modifier = Modifier.fillMaxWidth(),
                 items = listOf("Легко", "Нормально", "Огромная"),
-                selectedItemId = 0
+                selectedItemId = state.boardSize.ordinal
             ) {
-
+                dispatcher.invoke(SettingsEvent.ChangeBoardSize(it))
             }
         }
 
@@ -90,28 +93,28 @@ fun SettingsViewDisplay(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             JetCheckBox(
-                checked = true,
+                checked = state.gameRules.damageColliderEnabled,
                 label = "Урон от столкновения со стенами"
             ) {
-
+                dispatcher.invoke(SettingsEvent.ChangeRules(GameRuleEvent.ChangeDamageCollider(it)))
             }
             JetCheckBox(
-                checked = true,
+                checked = state.gameRules.extraLivesEnabled,
                 label = "Дополнительные жизни"
             ) {
-
+                dispatcher.invoke(SettingsEvent.ChangeRules(GameRuleEvent.ChangeExtraLives(it)))
             }
             JetCheckBox(
-                checked = true,
+                checked = state.gameRules.throwTailEnabled,
                 label = "Отбрасывание хвоста"
             ) {
-
+                dispatcher.invoke(SettingsEvent.ChangeRules(GameRuleEvent.ChangeThrowTail(it)))
             }
             JetCheckBox(
-                checked = true,
+                checked = state.gameRules.randomWallsEnabled,
                 label = "Случайные кирпичные стены"
             ) {
-
+                dispatcher.invoke(SettingsEvent.ChangeRules(GameRuleEvent.ChangeRandomWalls(it)))
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -120,13 +123,7 @@ fun SettingsViewDisplay(
         Spacer(modifier = Modifier.weight(1f))
 
         JetTextButton(text = "Вернуться", modifier = Modifier.fillMaxWidth(), onClick = {
-
+            dispatcher.invoke(SettingsEvent.CloseScreen)
         })
     }
-}
-@Preview
-@Composable
-fun ShowPrew() {
-    SettingsViewDisplay(
-    )
 }

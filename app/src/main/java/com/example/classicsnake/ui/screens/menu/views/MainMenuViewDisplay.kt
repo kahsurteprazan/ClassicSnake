@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -17,11 +18,14 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.classicsnake.R
+import com.example.classicsnake.ui.navigation.NavScreen
 import com.example.classicsnake.ui.theme.ClassicSnakeTheme
 import com.example.classicsnake.ui.theme.components.JetTextButton
 
 @Composable
-fun MainMenuScreenViewDisplay() {
+fun MainMenuViewDisplay(
+    onOpenPage: (NavScreen) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -42,22 +46,19 @@ fun MainMenuScreenViewDisplay() {
 
         JetTextButton(
             text = "Новая игра",
-            modifier = Modifier.fillMaxWidth()
-        ) {
-
-        }
+            modifier = Modifier.fillMaxWidth(),
+            onClick = remember {{onOpenPage.invoke(NavScreen.Game)}}
+        )
         JetTextButton(
             text = "Рейтинговая таблица",
-            modifier = Modifier.fillMaxWidth()
-        ) {
-
-        }
+            modifier = Modifier.fillMaxWidth(),
+            onClick = remember {{onOpenPage.invoke(NavScreen.RatingTable)}}
+        )
         JetTextButton(
             text = "Настройки",
-            modifier = Modifier.fillMaxWidth()
-        ) {
-
-        }
+            modifier = Modifier.fillMaxWidth(),
+            onClick = remember {{onOpenPage.invoke(NavScreen.Settings)}}
+        )
     }
 }
 
@@ -66,7 +67,5 @@ fun MainMenuScreenViewDisplay() {
 @Composable
 private fun ShowPreview() {
     ClassicSnakeTheme {
-        MainMenuScreenViewDisplay()
-
     }
 }
