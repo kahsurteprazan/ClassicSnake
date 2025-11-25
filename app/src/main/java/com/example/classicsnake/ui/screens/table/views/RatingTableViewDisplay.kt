@@ -12,15 +12,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.classicsnake.ui.screens.table.models.RatingTableEvent
+import com.example.classicsnake.ui.screens.table.models.RatingTableViewState
 import com.example.classicsnake.ui.theme.components.JetSection
 import com.example.classicsnake.ui.theme.components.JetSwitch
 import com.example.classicsnake.ui.theme.components.JetTextButton
 
 @Composable
 fun RatingTableViewDisplay(
-    /* ... */
+    state: RatingTableViewState.Display,
+    dispatcher: (RatingTableEvent) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -40,15 +42,15 @@ fun RatingTableViewDisplay(
         ) {
             JetSwitch(
                 items = listOf("Легко", "Нормально", "Сложно"),
-                selectedItemId = 1
+                selectedItemId = state.gameLevel.ordinal
             ) {
-
+                dispatcher.invoke(RatingTableEvent.ChangeDifficultyLevel(it))
             }
         }
 
         JetSection(label = "Статистика по играм",
             modifier = Modifier.weight(1f)) {
-            RatingTableCard(results = emptyList(),
+            RatingTableCard(results = state.gameResults,
                 modifier = Modifier.fillMaxSize())
         }
 
@@ -56,13 +58,7 @@ fun RatingTableViewDisplay(
 
         JetTextButton(text = "Вернуться",
             modifier = Modifier.fillMaxWidth()) {
-
+            dispatcher.invoke(RatingTableEvent.CloseScreen)
         }
     }
-}
-
-@Preview
-@Composable
-private fun ShowPreview() {
-    RatingTableViewDisplay()
 }
