@@ -1,9 +1,54 @@
 package com.example.classicsnake.ui.screens.game
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavController
+import com.example.classicsnake.data.local.datastore.DataStoreManager
+import com.example.classicsnake.domain.reposytory.SnakeController
+import com.example.classicsnake.ui.screens.game.models.GameAction
+import com.example.classicsnake.ui.screens.game.models.GameEvent
+import com.example.classicsnake.ui.screens.game.models.GameViewState
 import com.example.classicsnake.ui.screens.game.views.GameViewDisplay
 
 @Composable
-fun GameScreen() {
-    GameViewDisplay()
+fun GameScreen(navController: NavController) {
+    val context = LocalContext.current
+
+    val viewModel = remember {
+        GameViewModel(
+            DataStoreManager(context),
+            SnakeController()
+        )
+    }
+
+    val viewState = viewModel.viewStates().collectAsState()
+    val viewAction = viewModel.viewActions().collectAsState(initial = null)
+
+    when(val action = viewAction.value) {
+        is GameAction.CloseScreen -> {
+            navController.navigateUp()
+        }
+        else -> {
+
+        }
+    }
+
+    when(val state = viewState.value) {
+        is GameViewState.Loading -> {
+
+        }
+
+        is GameViewState.Display -> {
+            GameViewDisplay(state = state) {
+                viewModel.obtainEvent(it)
+            }
+        }
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.obtainEvent(GameEvent.EnterScreen)
+    }
 }
